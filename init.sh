@@ -19,6 +19,8 @@ EAP=jboss-eap-7.1.0.zip
 #EAP_PATCH=jboss-eap-6.4.7-patch.zip
 VERSION=7.0
 
+rm -rf $TARGET
+
 # wipe screen.
 clear
 
@@ -174,6 +176,8 @@ $JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u kieserver -p kieserver1! -
 $JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseUser -p redhatpam1! -ro user --silent
 $JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseManager -p redhatpam1! -ro user,manager --silent
 $JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u caseSupplier -p redhatpam1! -ro user,supplier --silent
+
+$JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u maciek -p redhatpam1! -ro analyst,admin,manager,user,kie-server,kiemgmt,rest-all --silent
 
 echo "  - setting up standalone.xml configuration adjustments..."
 echo
