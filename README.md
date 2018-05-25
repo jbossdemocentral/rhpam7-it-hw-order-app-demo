@@ -4,9 +4,9 @@ Project to automate the installation of this product without preconfiguration be
 
 It comprises a runnable Installation of 
 
-[Case management - jBPM v7 - Part 1](http://mswiderski.blogspot.de/2016/10/case-management-jbpm-v7-part-1.html)
-[Case management - jBPM v7 - Part 2 - working with case data](http://mswiderski.blogspot.de/2016/10/case-management-jbpm-v7-part-2-working.html)
-[Case management - jBPM v7 - Part 3 - dynamic activities](http://mswiderski.blogspot.de/2016/10/case-management-jbpm-v7-part-3-dynamic.html)
+- [Case management - jBPM v7 - Part 1](http://mswiderski.blogspot.de/2016/10/case-management-jbpm-v7-part-1.html)
+- [Case management - jBPM v7 - Part 2 - working with case data](http://mswiderski.blogspot.de/2016/10/case-management-jbpm-v7-part-2-working.html)
+- [Case management - jBPM v7 - Part 3 - dynamic activities](http://mswiderski.blogspot.de/2016/10/case-management-jbpm-v7-part-3-dynamic.html)
 
 
 There are three options available to you for using this demo: local, OpenShift and Docker.
