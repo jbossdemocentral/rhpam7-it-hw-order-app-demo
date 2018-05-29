@@ -1,7 +1,7 @@
 #!/bin/sh
-DEMO="Install Demo"
+DEMO="IT-HW Order Demo"
 AUTHORS="Red Hat"
-PROJECT="git@github.com:jbossdemocentral/rhpam7-install-demo.git"
+PROJECT="git@github.com:jbossdemocentral/rhpam7-order-it-hw-app-demo"
 PRODUCT="Red Hat Process Automation Manager"
 TARGET=./target
 JBOSS_HOME=$TARGET/jboss-eap-7.1
@@ -191,6 +191,17 @@ cp $SUPPORT_DIR/userinfo.properties $SERVER_DIR/business-central.war/WEB-INF/cla
 echo "  - making sure standalone.sh for server is executable..."
 echo
 chmod u+x $JBOSS_HOME/bin/standalone.sh
+
+# Add execute permissions to the standalone.sh script.
+echo "  - copying projects..."
+echo
+cp -r $SUPPORT_DIR/it-order-index $SERVER_BIN/.index
+cp -r $SUPPORT_DIR/it-order-niogit $SERVER_BIN/.niogit
+cp -r $SUPPORT_DIR/it-order-niogit-caseapp $SERVER_BIN/.niogit-caseapp
+if [ $? -ne 0 ]; then
+	echo Error occurred during $PRODUCT installation
+	exit
+fi
 
 echo "You can now start the $PRODUCT with $SERVER_BIN/standalone.sh"
 echo
