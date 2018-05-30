@@ -23,6 +23,9 @@ ENV PAM_KIE_SERVER=rhpam-$PAM_VERSION_MAJOR.$PAM_VERSION_MINOR.$PAM_VERSION_MICR
 ENV PAM_ADDONS=rhpam-$PAM_VERSION_MAJOR.$PAM_VERSION_MINOR.$PAM_VERSION_MICRO.$PAM_VERSION_PATCH-add-ons.zip
 ENV PAM_CASE_MGMT=rhpam-$PAM_VERSION_MAJOR.$PAM_VERSION_MINOR-case-mgmt-showcase-eap7-deployable.zip
 
+ENV SUPPORT_DIR ./support
+ENV SERVER_BIN $JBOSS_HOME/bin
+
 # ADD Installation Files
 COPY installs/$PAM_BUSINESS_CENTRAL installs/$PAM_KIE_SERVER installs/$PAM_ADDONS installs/$EAP_ARCHIVE /opt/jboss/
 
@@ -49,11 +52,23 @@ RUN $JBOSS_HOME/bin/add-user.sh -a -r ApplicationRealm -u pamAdmin -p redhatpam1
 COPY support/standalone-full.xml $JBOSS_HOME/standalone/configuration/
 COPY support/userinfo.properties $JBOSS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/
 
+COPY $SUPPORT_DIR/it-order-index $SERVER_BIN/it-order-index
+COPY $SUPPORT_DIR/it-order-niogit $SERVER_BIN/it-order-niogit
+COPY $SUPPORT_DIR/it-order-niogit-caseapp $SERVER_BIN/it-order-niogit-caseapp
+
+RUN mv $SERVER_BIN/it-order-index $SERVER_BIN/.index && \
+    mv $SERVER_BIN/it-order-niogit $SERVER_BIN/.niogit && \
+    mv $SERVER_BIN/it-order-niogit-caseapp  $SERVER_BIN/.niogit-caseapp
+
 # Swtich back to root user to perform cleanup
 USER root
 
 # Fix permissions on support files
-RUN chown -R jboss:jboss $JBOSS_HOME/standalone/configuration/standalone-full.xml $JBOSS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/userinfo.properties
+RUN chown -R jboss:jboss $JBOSS_HOME/standalone/configuration/standalone-full.xml \
+		$JBOSS_HOME/standalone/deployments/business-central.war/WEB-INF/classes/userinfo.properties \
+		$SERVER_BIN/.index \
+		$SERVER_BIN/.niogit \
+		$SERVER_BIN/.niogit-caseapp
 
 # Run as JBoss
 USER jboss
