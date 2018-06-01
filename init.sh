@@ -1,7 +1,7 @@
 #!/bin/sh
 DEMO="IT-HW Order Demo"
 AUTHORS="Red Hat"
-PROJECT="git@github.com:jbossdemocentral/rhpam7-order-it-hw-app-demo"
+PROJECT="git@github.com:jbossdemocentral/rhpam7-it-hw-order-app-demo"
 PRODUCT="Red Hat Process Automation Manager"
 TARGET=./target
 JBOSS_HOME=$TARGET/jboss-eap-7.1

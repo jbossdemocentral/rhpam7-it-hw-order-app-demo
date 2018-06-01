@@ -13,7 +13,7 @@ function echo_header() {
   echo "########################################################################"
 }
 
-PRJ_DEMO="rhpam7-install"
+PRJ_DEMO="rhpam7-it-hw-order-app-demo"
 PRJ_DEMO_NAME=$(./support/openshift/provision.sh info $PRJ_DEMO | awk '/Project name/{print $3}')
 
 # Check if the project exists
@@ -21,7 +21,7 @@ oc get project $PRJ_DEMO_NAME > /dev/null 2>&1
 PRJ_EXISTS=$?
 
 if [ $PRJ_EXISTS -eq 0 ]; then
-   echo_header "RHDM7 Install Demo project already exists. Deleting project."
+   echo_header "RHDM7 IT-HW Order Demo project already exists. Deleting project."
    ./support/openshift/provision.sh delete $PRJ_DEMO
    # Wait until the project has been removed
    echo_header "Waiting for OpenShift to clean deleted project."
