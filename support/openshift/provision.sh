@@ -1,4 +1,3 @@
-    #!/bin/sh
 #!/bin/bash
 set -e
 
@@ -152,7 +151,7 @@ OPENSHIFT_USER=${ARG_USERNAME:-$LOGGEDIN_USER}
 
 # Project name needs to be unique across OpenShift Online
 PRJ_SUFFIX=${ARG_PROJECT_SUFFIX:-`echo $OPENSHIFT_USER | sed -e 's/[^-a-z0-9]/-/g'`}
-PRJ=("rhpam7-install-$PRJ_SUFFIX" "RHPAM7 Install Demo" "Red Hat Process Automation Manager 7 Install Demo")
+PRJ=("rhpam7-it-hw-order-app-demo-$PRJ_SUFFIX" "RHPAM7 IT-HW Order Demo" "Red Hat Process Automation Manager 7 IT-HW Order Demo")
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -172,7 +171,7 @@ OPENSHIFT_PAM7_TEMPLATES_TAG=34b76c9cf650c13eaeae691d574ff895065ec444
 # DEMO MATRIX                                                                  #
 ################################################################################
 case $ARG_DEMO in
-    rhpam7-install)
+    rhpam7-it-hw-order-app-demo)
       DEMO_NAME=${PRJ[2]}
 	    ;;
     *)
@@ -285,6 +284,8 @@ function create_application() {
     IMAGE_STREAM_NAMESPACE=${PRJ[0]}
   fi
 
+  oc create configmap setup-demo-scripts --from-file=$SCRIPT_DIR/bc-clone-git-repository.sh
+
   oc new-app --template=rhpam70-authoring \
 			-p APPLICATION_NAME="$ARG_DEMO" \
 			-p IMAGE_STREAM_NAMESPACE="$IMAGE_STREAM_NAMESPACE" \
@@ -295,10 +296,17 @@ function create_application() {
 			-p KIE_SERVER_CONTROLLER_PWD="$KIE_SERVER_CONTROLLER_PWD" \
 			-p KIE_SERVER_USER="$KIE_SERVER_USER" \
 			-p KIE_SERVER_PWD="$KIE_SERVER_PWD" \
-      -p BUSINESS_CENTRAL_HTTPS_SECRET="businesscentral-app-secret" \
-      -p KIE_SERVER_HTTPS_SECRET="kieserver-app-secret" \
+                        -p BUSINESS_CENTRAL_HTTPS_SECRET="businesscentral-app-secret" \
+                        -p KIE_SERVER_HTTPS_SECRET="kieserver-app-secret" \
 			-p BUSINESS_CENTRAL_MEMORY_LIMIT="2Gi"
 
+
+  # Give the system some time to create the DC, etc. before we trigger a deployment config change.
+  sleep 5
+
+  oc set volume dc/rhpam7-it-hw-order-app-demo-rhpamcentr --add --name=config-volume --configmap-name=setup-demo-scripts --mount-path=/tmp/config-files
+  oc set deployment-hook dc/rhpam7-it-hw-order-app-demo-rhpamcentr --post -c rhpam7-it-hw-order-app-demo-rhpamcentr -e BC_URL="http://rhpam7-it-hw-order-app-rhpamcentr" \
+               -v config-volume --failure-policy=abort -- /bin/bash /tmp/config-files/bc-clone-git-repository.sh
 }
 
 function build_and_deploy() {

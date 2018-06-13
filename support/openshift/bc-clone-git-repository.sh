@@ -1,11 +1,12 @@
 #!/bin/sh
 
 #BUSINESS_CENTRAL_REST_URL="http://rhpam7-mortgage-rhpamcentr-rhpam7-mortgage-developer.192.168.64.10.nip.io/rest"
-BUSINESS_CENTRAL_REST_URL="http://rhpam7-mortgage-rhpamcentr:8080/rest"
+#BUSINESS_CENTRAL_REST_URL="http://rhpam7-mortgage-rhpamcentr:8080/rest"
+BUSINESS_CENTRAL_REST_URL="http://rhpam7-it-hw-order-app-rhpamcentr:8080/rest"
 SPACE="MySpace"
 DEFAULT_GROUPID="com.myspace"
 PROJECT_GIT="https://github.com/mswiderski/case-examples.git"
-PROJECT_ID="rhpam7-it-hw-order-demo-repo"
+PROJECT_ID="rhpam7-it-hw-order-demo-app-repo"
 PROJECT_NAME="IT_HW_ORDER_Demo"
 STARTUP_WAIT=60
 

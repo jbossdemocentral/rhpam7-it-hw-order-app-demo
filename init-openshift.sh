@@ -25,7 +25,7 @@ if [ $PRJ_EXISTS -eq 0 ]; then
    ./support/openshift/provision.sh delete $PRJ_DEMO
    # Wait until the project has been removed
    echo_header "Waiting for OpenShift to clean deleted project."
-   sleep 20
+   sleep 60
 else if [ ! $PRJ_EXISTS -eq 1 ]; then
 	echo "An error occurred communicating with your OpenShift instance."
 	echo "Please make sure that your logged in to your OpenShift instance with your 'oc' client."
@@ -33,6 +33,6 @@ else if [ ! $PRJ_EXISTS -eq 1 ]; then
   fi
 fi
 
-echo_header "Provisioning Red Hat Decision Manager 7 Install Demo."
+echo_header "Provisioning Red Hat Decision Manager 7 IT-HW Order App Demo."
 ./support/openshift/provision.sh setup $PRJ_DEMO --with-imagestreams
 echo_header "Setup completed."
